@@ -1,1 +1,7 @@
+exception/ProductoNoEncontradoException.class
+util/Validador.class
+model/Producto.class
 com/josepaz/preentrega/Main.class
+ui/MenuProducto.class
+service/ProductoService.class
+exception/StockInsuficienteException.class

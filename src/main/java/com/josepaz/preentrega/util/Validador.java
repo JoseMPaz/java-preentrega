@@ -14,9 +14,9 @@ import exception.StockInsuficienteException;
 public class Validador 
 {
 
-    // =====================================================================
+    // =============================================================
     // VALIDACIONES DE DATOS DEL PRODUCTO
-    // =====================================================================
+    // =============================================================
     // Estos metodos lanzan una excepcion si el dato recibido es invalido.
     // No retornan ningun valor: si la ejecucion finaliza sin lanzar la 
     // excepcion, significa que el dato es valido.
@@ -55,9 +55,9 @@ public class Validador
         }
     }
 
-    // =====================================================================
+    // =============================================================
     // METODOS DE LECTURA POR CONSOLA
-    // =====================================================================
+    // =============================================================
 
     public static int leerEntero(Scanner sc, String mensaje) 
     {

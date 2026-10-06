@@ -30,9 +30,9 @@ public class ProductoService
     // y no a una instancia, garantizando su unicidad.
     private static int contadorId = 1;
 
-    // =====================================================================
+    // =============================================================
     // OPERACIONES CRUD (Create, Read, Update, Delete)
-    // =====================================================================
+    // =============================================================
 
     // CREATE: agregar un nuevo producto
     public Producto guardar(Producto p) 

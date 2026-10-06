@@ -101,5 +101,14 @@ public class Producto
                 " | Stock: " + stock +
                 " | Categoria: " + categoria;
     }
+    
+    public void mostrar() 
+    {
+        System.out.println("ID: " + id +
+                " | " + nombre +
+                " | $" + precio +
+                " | Stock: " + stock +
+                " | Categoría: " + categoria);
+    }
 }
 

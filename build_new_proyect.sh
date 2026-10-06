@@ -3,9 +3,9 @@
 # Detener el script inmediatamente si ocurre algun error
 set -e
 
-# =====================================================================
+# =================================================================
 # VALIDACION DE ARGUMENTOS DE LINEA DE COMANDO
-# =====================================================================
+# =================================================================
 # Si el primer argumento ($1) esta vacio, muestra un error explicativo y sale.
 if [ -z "$1" ]; then
     echo "Error: No especificaste el nombre del proyecto."
@@ -33,6 +33,7 @@ mkdir -p "$PACKAGE_DIR/exception"
 mkdir -p "$PACKAGE_DIR/model"
 mkdir -p "$PACKAGE_DIR/service"
 mkdir -p "$PACKAGE_DIR/util"
+mkdir -p "$PACKAGE_DIR/ui"
 
 echo "=== 2. Verificando archivo Java principal ==="
 # Solo crea el Main.java de ejemplo inicial si el archivo NO existe.

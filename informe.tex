@@ -72,23 +72,60 @@
 % SECCIÓN 1
 % ---------------------------------
 \section{Creación del proyecto}
-Para crear un nuevo proyecto java utilice el script build\_new\_proyect.sh 
+Para crear un nuevo proyecto java en linux desde la terminal utilizando el script build\_new\_proyect.sh el cual crea las carpeta como lo necesita maven, además crea un Main.java de muestra y crea las carpetas ui, util, model, exception y service.
+Este archivo debe tener permiso de ejecución \textbf{chmod +x build\_new\_proyect.sh}
 
 \subsection{build\_new\_proyect.sh }
 \lstinputlisting[caption={Script de automatización build\_new\_proyect.sh}, label={code:script_bash}]{build_new_proyect.sh}
 
+\section{Ejecución del proyecto}
+\lstinputlisting[caption={Script de ejecucion run\_proyect.sh}, label={code:script_bash}]{run_proyect.sh}
 
-\begin{figure}[htbp]
+\begin{figure}[H] 
     \centering
     \includegraphics[width=0.9\textwidth]{construccion_nuevo_proyecto.png}
     \caption{Creación de un nuevo proyecto java}
     \label{fig:nuevo_proyecto_java}
 \end{figure}
 
+
+\subsection{Main.java}
 \lstinputlisting[
-    caption={Clase Principal Main.java (Pre-entrega)}, 
+    caption={Clase Main.java (Pre-entrega)}, 
     label={code:main_java}
 ]{./src/main/java/com/josepaz/preentrega/Main.java}
+
+\subsection{Validador.java}
+\lstinputlisting[
+    caption={Clase Validador.java (Pre-entrega)}, 
+    label={code:validador_java}
+]{./src/main/java/com/josepaz/preentrega/util/Validador.java}
+
+\subsection{Producto.java}
+\lstinputlisting[
+    caption={Clase Producto.java (Pre-entrega)}, 
+    label={code:producto_java}
+]{./src/main/java/com/josepaz/preentrega/model/Producto.java}
+
+\subsection{ProductoService.java}
+\lstinputlisting[
+    caption={Clase ProductoService.java (Pre-entrega)}, 
+    label={code:producto_service_java}
+]{./src/main/java/com/josepaz/preentrega/service/ProductoService.java}
+
+
+\subsection{ProductoNoEncontradoException.java}
+\lstinputlisting[
+    caption={Clase ProductoNoEncontradoException.java (Pre-entrega)}, 
+    label={code:producto_no_encontrado_exception_java}
+]{./src/main/java/com/josepaz/preentrega/exception/ProductoNoEncontradoException.java}
+
+\subsection{StockInsuficienteException.java}
+\lstinputlisting[
+    caption={Clase StockInsuficienteException.java (Pre-entrega)}, 
+    label={code:stock_insuficiente_exception_java}
+]{./src/main/java/com/josepaz/preentrega/exception/StockInsuficienteException.java}
+
 
 % ---------------------------------
 % FIN DEL DOCUMENTO

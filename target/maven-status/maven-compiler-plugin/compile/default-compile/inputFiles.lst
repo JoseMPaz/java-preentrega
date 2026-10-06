@@ -1,1 +1,7 @@
 /home/josepaz/JAVA/java-preentrega/src/main/java/com/josepaz/preentrega/Main.java
+/home/josepaz/JAVA/java-preentrega/src/main/java/com/josepaz/preentrega/exception/ProductoNoEncontradoException.java
+/home/josepaz/JAVA/java-preentrega/src/main/java/com/josepaz/preentrega/exception/StockInsuficienteException.java
+/home/josepaz/JAVA/java-preentrega/src/main/java/com/josepaz/preentrega/model/Producto.java
+/home/josepaz/JAVA/java-preentrega/src/main/java/com/josepaz/preentrega/service/ProductoService.java
+/home/josepaz/JAVA/java-preentrega/src/main/java/com/josepaz/preentrega/ui/MenuProducto.java
+/home/josepaz/JAVA/java-preentrega/src/main/java/com/josepaz/preentrega/util/Validador.java
