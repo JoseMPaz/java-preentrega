@@ -5,58 +5,61 @@
 % ---------------------------------
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} % Mejora el renderizado de fuentes con tildes
-\usepackage{listings}% 1. Incluir el paquete para manejo de código
-\usepackage[T1]{fontenc}
+\usepackage{listings}    % Manejo de código fuente
 \usepackage[spanish]{babel}
-\usepackage{graphicx} 
+\usepackage{graphicx}    % Para incluir imágenes
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{bookmark}
-\usepackage{graphicx} % Para incluir imágenes
-\usepackage{subcaption} % Para crear subfiguras
-% PAQUETE PARA MODIFICAR MÁRGENES (Agregado aquí)
-\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry} 
-\usepackage{xcolor} % Para darle colores al código
+\usepackage{subcaption}  % Para crear subfiguras
+\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry} % Márgenes modificados
+\usepackage{xcolor}      % Para darle colores al código
+
 \graphicspath{ {./img/} } 
 
-% 2. Configurar el diseño del bloque de código (Opcional pero recomendado)
+% ---------------------------------
+% CONFIGURACIÓN DE LISTINGS (Mapeo estricto para evitar errores UTF-8)
+% ---------------------------------
 \lstset{
-    language=bash,
-    basicstyle=\ttfamily\small,  % Tipografía monoespaciada pequeña
-    keywordstyle=\color{blue},   % Palabras clave en azul
-    commentstyle=\color{gray},   % Comentarios en gris
-    stringstyle=\color{purple},  % Textos en púrpura
-    numbers=left,                % Números de línea a la izquierda
+    basicstyle=\ttfamily\small,
+    numbers=left,
     numberstyle=\tiny\color{gray},
     stepnumber=1,
-    breaklines=true,             % Cortar líneas largas automáticamente
-    frame=single,                % Añadir un marco alrededor del código
+    breaklines=true,
+    frame=single,
+    showstringspaces=false,
+    tabsize=4,
+    extendedchars=true,
+    inputencoding=utf8,
+    % Mapeo manual de caracteres especiales para evitar fallos con los archivos externos .java
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1 {✔}{{\checkmark}}1 {¡}{{\textexclamdown}}1 {---}{{\textemdash}}1
+}
+
+% Configuración específica de colores para Java
+\lstdefinestyle{JavaStyle}{
+    language=Java,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{purple},
     backgroundcolor=\color{white}
 }
 
-% 3. Configuración específica para resaltar código Java
-\lstset{
-    language=Java,                      % Definimos el lenguaje
-    basicstyle=\ttfamily\small,         % Tipografía monoespaciada pequeña
-    keywordstyle=\color{blue}\bfseries, % Palabras clave en azul y negrita
-    commentstyle=\color{green!60!black},% Comentarios en verde oscuro
-    stringstyle=\color{purple},         % Cadenas de texto en púrpura
-    numbers=left,                       % Números de línea a la izquierda
-    numberstyle=\tiny\color{gray},
-    stepnumber=1,
-    breaklines=true,                    % Cortar líneas largas automáticamente
-    frame=single,                       % Marco simple alrededor del código
-    showstringspaces=false,             % No mostrar espacios raros en los strings
-    tabsize=4                           % Tamaño de tabulación estándar
+% Configuración específica de colores para Bash
+\lstdefinestyle{BashStyle}{
+    language=bash,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{purple},
+    backgroundcolor=\color{white}
 }
 
 % ---------------------------------
 % DATOS DEL DOCUMENTO
 % ---------------------------------
-\title{Preentrega Backend con Java}
-\author{Jose Miguel Paz Portilla}
+\title{Preentrega Backend con Java \\ \large Sistema Control de Inventario - TechLab}
+\author{José Miguel Paz Portilla}
 \date{\today}
 
 % ---------------------------------
@@ -70,82 +73,80 @@
 \newpage
 
 % ---------------------------------
+% INTRODUCCIÓN Y ARQUITECTURA (Agregado)
+% ---------------------------------
+\section{Introducción y Arquitectura del Sistema}
+El presente proyecto documenta la preentrega de la plataforma de control de inventario de TechLab. El software se modeló utilizando el paradigma de Programación Orientada a Objetos (POO) bajo una arquitectura desacoplada en capas. Este enfoque asegura un diseño de software mantenible y modular, aislando la lógica transaccional de los mecanismos de presentación.
+
+\subsection{Distribución Modular de Responsabilidades}
+La separación de paquetes encarna el principio de Cohesión y Responsabilidad Única (SRP):
+\begin{itemize}
+    \item \textbf{model:} Contiene las entidades puras del negocio (POJOs), responsables de modelar el estado del objeto.
+    \item \textbf{service:} Capa lógica central encargada de las transacciones CRUD y la manipulación de la persistencia volátil en memoria.
+    \item \textbf{exception:} Centralización funcional de los errores de negocio mapeados mediante excepciones personalizadas.
+    \item \textbf{ui:} Gestión del flujo de consola y entrada/salida interactiva de datos.
+    \item \textbf{util:} Módulos utilitarias estáticos para el procesamiento genérico y la sanitización de entradas por teclado.
+\end{itemize}
+
+\subsection{Patrón de Inyección de Dependencias}
+Para evitar el acoplamiento duro, se implementó el patrón de Inyección de Dependencias por Constructor dentro de la clase \texttt{MenuProducto}. Al recibir el Scanner y la instancia de \texttt{ProductoService} desde el exterior, la interfaz queda desacoplada de la inicialización de sus componentes. Esta práctica es la base técnica fundamental para la futura migración hacia frameworks empresariales como Spring Boot.
+
+% ---------------------------------
 % SECCIÓN 1
 % ---------------------------------
 \section{Creación del proyecto}
-El proyecto por problemas velocidad del ordenador lo realice desde la terminal de linux. Para crear un nuevo proyecto java en desde la terminal creo un script build\_new\_proyect.sh el cual crea las carpeta como lo necesita maven, crea las carpetas ui, util, model, exception y service. Tambien crea un Main.java con un Hola mundo de prueba.
+El proyecto por problemas de velocidad del ordenador se realizó desde la terminal de linux. Para crear un nuevo proyecto java desde la terminal se creó un script build\_new\_proyect.sh el cual crea las carpeta como lo necesita maven, crea el archivo pom.xml, crea las carpetas ui, util, model, exception y service. Tambien crea un Main.java con un Hola mundo de prueba.
 
 \subsection{build\_new\_proyect.sh}
-\lstinputlisting[caption={Script de automatización build\_new\_proyect.sh}, label={code:script_bash}]{build_new_proyect.sh}
+\lstinputlisting[style=BashStyle, caption={Script de automatización build\_new\_proyect.sh}, label={code:script_bash}]{build_new_proyect.sh}
 
 Este script debe tener permiso de ejecución que se otorga del siguiente modo:\\
-\textbf{chmod +x build\_new\_proyect.sh}\\ 
+\textbf{chmod +x build\_new\_proyect.sh}\\
 
-Luego se ejecutó para crear el proyecto como se muestra en la \autoref{figura:nuevo_proyecto_java}.
+El la \autoref{figura:nuevo_proyecto_java} se muestra como crear el proyecto de la preentrega.
 
 \begin{figure}[H] 
     \centering
-    \includegraphics[width=0.7\textwidth]{construccion_nuevo_proyecto.png}
+    \includegraphics[width=0.9\textwidth]{construccion_nuevo_proyecto.png}
     \caption{Creación de un nuevo proyecto java}
     \label{figura:nuevo_proyecto_java}
 \end{figure}
 
 \section{Ejecución del proyecto}
 \subsection{run\_proyect.sh}
-\lstinputlisting[caption={Script de ejecucion run\_proyect.sh}, label={code:script_bash}]{run_proyect.sh}
+\lstinputlisting[style=BashStyle, caption={Script de ejecucion run\_proyect.sh}, label={code:script_bash}]{run_proyect.sh}
 
-Para ejecutarlo una vez que se realizo el proyecto se debe ejecutar como se muestra en la \autoref{figura:ejecucion_proyecto_java}.
+En la \autoref{figura:ejecucion_proyecto_java} se muestra como ejecutar el proyecto de la preentrega.
 
 \begin{figure}[H] 
     \centering
-    \includegraphics[width=0.7\textwidth]{ejecucion.png}
+    \includegraphics[width=0.9\textwidth]{ejecucion.png}
     \caption{Ejecución del proyecto java}
     \label{figura:ejecucion_proyecto_java}
 \end{figure}
 
 \section{Código}
 \subsection{Main.java}
-\lstinputlisting[
-    caption={Clase Main.java (Pre-entrega)}, 
-    label={code:main_java}
-]{./src/main/java/com/josepaz/preentrega/Main.java}
+\lstinputlisting[style=JavaStyle, caption={Clase Main.java (Pre-entrega)}, label={code:main_java} ]{./src/main/java/com/josepaz/preentrega/Main.java}
 
 \subsection{Validador.java}
-\lstinputlisting[
-    caption={Clase Validador.java (Pre-entrega)}, 
-    label={code:validador_java}
-]{./src/main/java/com/josepaz/preentrega/util/Validador.java}
+\lstinputlisting[style=JavaStyle, caption={Clase Validador.java (Pre-entrega)}, label={code:validador_java} ]{./src/main/java/com/josepaz/preentrega/util/Validador.java}
 
 \subsection{Producto.java}
-\lstinputlisting[
-    caption={Clase Producto.java (Pre-entrega)}, 
-    label={code:producto_java}
-]{./src/main/java/com/josepaz/preentrega/model/Producto.java}
+\lstinputlisting[style=JavaStyle, caption={Clase Producto.java (Pre-entrega)}, label={code:producto_java} ]{./src/main/java/com/josepaz/preentrega/model/Producto.java}
 
 \subsection{ProductoService.java}
-\lstinputlisting[
-    caption={Clase ProductoService.java (Pre-entrega)}, 
-    label={code:producto_service_java}
-]{./src/main/java/com/josepaz/preentrega/service/ProductoService.java}
+\lstinputlisting[style=JavaStyle, caption={Clase ProductoService.java (Pre-entrega)}, label={code:producto_service_java} ]{./src/main/java/com/josepaz/preentrega/service/ProductoService.java}
 
 
 \subsection{ProductoNoEncontradoException.java}
-\lstinputlisting[
-    caption={Clase ProductoNoEncontradoException.java (Pre-entrega)}, 
-    label={code:producto_no_encontrado_exception_java}
-]{./src/main/java/com/josepaz/preentrega/exception/ProductoNoEncontradoException.java}
+\lstinputlisting[style=JavaStyle, caption={Clase ProductoNoEncontradoException.java (Pre-entrega)}, label={code:producto_no_encontrado_exception_java} ]{./src/main/java/com/josepaz/preentrega/exception/ProductoNoEncontradoException.java}
 
 \subsection{StockInsuficienteException.java}
-\lstinputlisting[
-    caption={Clase StockInsuficienteException.java (Pre-entrega)}, 
-    label={code:stock_insuficiente_exception_java}
-]{./src/main/java/com/josepaz/preentrega/exception/StockInsuficienteException.java}
+\lstinputlisting[style=JavaStyle, caption={Clase StockInsuficienteException.java (Pre-entrega)}, label={code:stock_insuficiente_exception_java} ]{./src/main/java/com/josepaz/preentrega/exception/StockInsuficienteException.java}
 
 \subsection{MenuProducto.java}
-\lstinputlisting[
-    caption={Clase MenuProducto.java (Pre-entrega)}, 
-    label={code:menu_producto_java}
-]{./src/main/java/com/josepaz/preentrega/ui/MenuProducto.java}
+\lstinputlisting[style=JavaStyle, caption={Clase MenuProducto.java (Pre-entrega)}, label={code:menu_producto_java} ]{./src/main/java/com/josepaz/preentrega/ui/MenuProducto.java}
 
 \section{Corridas}
 
@@ -191,9 +192,44 @@ Para ejecutarlo una vez que se realizo el proyecto se debe ejecutar como se mues
     \label{figura:opcion_6}
 \end{figure}
 
+\section{Pruebas Unitarias}
 
+Las pruebas unitarias implementadas en este proyecto se enfocaron exclusivamente en el modulo ProductoService debido a que este componente constituye el núcleo de la lógica de negocio del sistema. En una arquitectura de software limpia y distribuida por capas, es fundamental garantizar la estabilidad y el correcto comportamiento de la capa de servicio de manera aislada.
+
+Este enfoque selectivo se justifica por las siguientes razones de ingenieria de software:
+
+\begin{itemize}
+    \item \textbf{Aislamiento de la Logica de Negocio:} Las clases pertenecientes al paquete model solo actuan como contenedores de datos (POJOs), mientras que las utilidades del paquete util y las excepciones son componentes de soporte. ProductoService es el unico modulo que procesa, altera y valida las reglas del negocio.
+    \item \textbf{Desacoplamiento de la Interfaz:} El paquete ui (MenuProducto) y la clase Main se encargan unicamente de la interaccion con el usuario a traves de la consola. Probar esos modulos requeriría simular entradas de teclado (Scanner) y flujos de salida (System.out), lo cual pertenece al ambito de las pruebas de integracion o de interfaz, no a las pruebas unitarias.
+    \item \textbf{Validacion de Flujos Criticos:} Al concentrar los esfuerzos en este servicio, se logro verificar de forma automatizada tanto los casos de exito del CRUD como la correcta respuesta del sistema ante fallos, forzando de manera segura el lanzamiento de las excepciones ProductoNoEncontradoException y StockInsuficienteException.
+\end{itemize}
+
+\subsection{Estrategia de Testing y Robustez del Dominio}
+Para asegurar la estabilidad matemática del software, se incorporaron técnicas avanzadas de control de estado en la suite de pruebas unitarias:
+\begin{itemize}
+\item \textbf{Mecánica Fail-Fast:} Los métodos de prueba evalúan que los validadores lancen excepciones de manera inmediata (\texttt{IllegalArgumentException}) ante cargas de datos corruptas o inconsistentes (ej. nombres vacíos o precios negativos), protegiendo la integridad del catálogo en memoria.
+\item \textbf{Control de Estado Estático:} Debido a que la capa de servicio utiliza un contador estático secuencial para la asignación de llaves primarias (IDs), se diseñó un método utilitario \texttt{reiniciarServicio()} invocado en el ciclo \texttt{@BeforeEach}. Esto limpia la colección y resetea el puntero a 1 antes de cada test, garantizando el principio de Independencia Funcional (las pruebas no se contaminan entre sí).
+\end{itemize}
+\subsection{ProductoServiceTest.java}
+\lstinputlisting[style=JavaStyle, caption={Clase ProductoServiceTest.java (Pre-entrega)}, label={code:producto_service_test_java}]{./src/test/java/com/josepaz/preentrega/ProductoServiceTest.java}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{ejecutar_test.png}
+\caption{Como ejecutar las pruebas unitarias}
+\label{figura:ejecutar_test}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{resultado_test.png}
+\caption{Resultado de las pruebas unitarias}
+\label{figura:resultado_test}
+\end{figure}
+% ---------------------------------
+% CONCLUSIONES (Agregado)
+% ---------------------------------
+\section{Conclusiones}
+La resolución de esta preentrega mediante la consola de Linux consolida un backend sólido y resiliente. El uso de validaciones defensivas blindadas contra el desbordamiento de búfer del \texttt{Scanner} asegura una experiencia estable para el usuario. El éxito en la ejecución de la suite de JUnit 5 valida matemáticamente el comportamiento del CRUD y el control de errores, dejando el ecosistema de TechLab con bases arquitectónicas profesionales y listo para su futura integración con sistemas de bases de datos relacionales persistentes.
 % ---------------------------------
 % FIN DEL DOCUMENTO
 % ---------------------------------
 \end{document}
-

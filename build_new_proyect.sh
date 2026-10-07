@@ -54,7 +54,8 @@ else
     echo "El archivo Main.java ya existe. Respetando tu codigo actual."
 fi
 
-echo "=== 3. Generando archivo pom.xml ==="
+echo "=== 3. Generando archivo pom.xml con soporte JUnit 5 y Surefire ==="
+# Se elimino la barra invertida de la etiqueta mainClass para que Bash inyecte el valor real
 cat << EOF > pom.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://apache.org"
@@ -72,6 +73,16 @@ cat << EOF > pom.xml
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <!-- Dependencia para habilitar las pruebas unitarias de JUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <!-- Plugin para compilar con tu version Java 21 -->
@@ -85,7 +96,14 @@ cat << EOF > pom.xml
                 </configuration>
             </plugin>
             
-            <!-- Plugin Exec apuntando a tu clase dinamica com.josepaz.$NUM_EJERCICIO.Main -->
+            <!-- Plugin Surefire moderno para mapear y listar la ejecucion de JUnit 5 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+            
+            <!-- Plugin Exec apuntando a tu clase dinamica com.josepaz -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -104,4 +122,7 @@ mvn clean compile
 
 echo "=== 5. Ejecutando la clase Main de $NUM_EJERCICIO ==="
 mvn exec:java
+
+echo "=== 6. Ejecutando las pruebas unitarias con JUnit 5 ==="
+mvn test
 

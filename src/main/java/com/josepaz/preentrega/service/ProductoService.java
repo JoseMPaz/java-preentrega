@@ -138,5 +138,17 @@ public class ProductoService
         // Remocion fisica: Rompe el enlace del objeto dentro del ArrayList
         productos.remove(p);
     }
+    
+	/**
+     * Metodo exclusivo para entornos de prueba.
+     * Restablece el contador estatico de identificadores y vacia la lista
+     * para asegurar la independencia de los tests unitarios.
+     */
+    public void reiniciarServicio() 
+    {
+        productos.clear();
+        contadorId = 1;
+    }
+
 }
 
