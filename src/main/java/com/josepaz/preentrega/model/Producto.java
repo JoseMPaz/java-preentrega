@@ -1,26 +1,34 @@
 package model;
 
 /**
- * Modelo de dominio: representa un producto del catalogo.
- *
- * Aplica encapsulamiento: los atributos son privados y se accede
- * a ellos a traves de getters y setters. Esta clase no sabe nada
- * sobre como se almacenan los productos ni como se muestran al
- * usuario; su unica responsabilidad es representar un producto.
+ * Modelo de Dominio o Plain Old Java Object (POJO): Representa la entidad basica de un Producto.
+ * 
+ * Aplica el principio de Encapsulamiento: Los atributos son privados y el acceso se restringe
+ * a traves de metodos publicos (getters y setters). Esta clase sigue el Principio de Responsabilidad
+ * Unica (SRP), limitandose a modelar un objeto del mundo real; no gestiona bases de datos ni logica visual.
  */
 public class Producto 
 {
-    // Atributos privados: nadie desde afuera puede modificarlos
-    // directamente. Para acceder o modificarlos se usan los metodos
-    // getters y setters definidos mas abajo.
+    // ============================================
+    // ATRIBUTOS (Estado del Objeto)
+    // ============================================
+    // Al ser 'private', se protege la integridad de los datos impidiendo modificaciones 
+    // externas maliciosas o directas que puedan romper el estado de la entidad.
     private int id;
     private String nombre;
     private double precio;
     private int stock;
     private String categoria;
 
-    // Constructor sin id: el id lo asigna el ProductoService al
-    // momento de guardar el producto. El usuario nunca elige el id.
+    // ============================================
+    // CONSTRUCTORES (Instanciacion)
+    // ============================================
+
+    /**
+     * Constructor Parametrizado (Sin ID).
+     * Se utiliza para crear productos nuevos antes de ser persistidos. El ID no se incluye 
+     * aqui porque su generacion es responsabilidad de la capa de persistencia (Base de datos / Servicio).
+     */
     public Producto(String nombre, double precio, int stock, String categoria) 
     {
         this.nombre = nombre;
@@ -29,15 +37,22 @@ public class Producto
         this.categoria = categoria;
     }
 
-    // Constructor vacio: util para crear un Producto y completarlo
-    // con setters despues. Tambien lo necesitara Spring/JPA mas adelante en el curso.
+    /**
+     * Constructor Vacio (Por defecto).
+     * Requisito fundamental de la especificacion JavaBeans. Permite instanciar objetos "vacios" 
+     * para completarlos progresivamente mediante Setters. Es obligatorio para que frameworks 
+     * de mapeo como Hibernate/JPA, Jackson (JSON) o Spring puedan realizar la instanciacion por reflexion.
+     */
     public Producto() 
     {
-    	//Vacio
+    	// Bloque intencionalmente vacio para cumplir con el estandar POJO/JavaBean
     }
 
-    // Getters y setters: la unica forma de acceder o modificar
-    // los atributos privados desde afuera de la clase.
+    // ============================================
+    // METODOS DE ACCESO (Getters y Setters)
+    // ============================================
+    // Constituyen la interfaz publica segura para interactuar con los atributos privados.
+
     public int getId() 
     {
         return id;
@@ -88,10 +103,16 @@ public class Producto
         this.categoria = categoria;
     }
 
-    // toString() sobreescribe el metodo heredado de Object.
-    // Sirve para mostrar el producto de forma legible al listarlo
-    // en consola. Cuando hagamos System.out.println(producto), Java
-    // llama automaticamente a este metodo.
+    // ============================================
+    // METODOS DE REPRESENTACION Y SALIDA
+    // ============================================
+
+    /**
+     * Sobreescritura del metodo estandar toString() heredado de la clase base java.lang.Object.
+     * Convierte la direccion de memoria nativa del objeto en una cadena de texto util y legible.
+     * Ideal para tareas de depuracion (debugging) o concatenaciones rapidas de texto.
+     * @return Una representacion formateada con el estado actual de los atributos del producto.
+     */
     @Override
     public String toString() 
     {
@@ -102,13 +123,17 @@ public class Producto
                 " | Categoria: " + categoria;
     }
     
+    /**
+     * Envia directamente la informacion formateada del producto hacia el flujo de salida estandar (Consola).
+     * Disenado especificamente para estandarizar la visualizacion de registros individuales dentro de la UI.
+     */
     public void mostrar() 
     {
         System.out.println("ID: " + id +
                 " | " + nombre +
                 " | $" + precio +
                 " | Stock: " + stock +
-                " | Categoría: " + categoria);
+                " | Categoria: " + categoria);
     }
 }
 

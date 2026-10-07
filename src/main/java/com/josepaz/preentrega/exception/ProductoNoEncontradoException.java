@@ -1,23 +1,31 @@
 package exception;
 
 /**
- * Excepcion personalizada lanzada cuando un producto buscado por su ID
- * no existe en el sistema.
+ * Excepcion Personalizada de Negocio (Custom Domain Exception).
+ * Se dispara exclusivamente cuando un proceso del sistema intenta interactuar con un ID de producto inexistente.
  * 
- * Hereda de RuntimeException (excepciones no verificadas). Esto evita obligar
- * al desarrollador a usar bloques try/catch de forma explicita, manteniendo
- * el codigo mas limpio, pero permitiendo su captura cuando sea necesario.
+ * Arquitectura de Errores:
+ * Hereda de java.lang.RuntimeException, clasificandose como una Unchecked Exception (Excepcion No Verificada).
+ * A diferencia de las Checked Exceptions (que heredan directamente de java.lang.Exception), las excepciones no 
+ * verificadas no obligan a propagar firmas con la palabra clave 'throws' ni fuerzan el uso de bloques try/catch 
+ * en todas las capas intermedias, manteniendo el codigo limpio y desacoplado.
  * 
- * El uso de excepciones propias mejora la expresividad del modelo de dominio,
- * ofreciendo nombres claros en lugar de utilizar clases genericas como
- * Exception o IllegalArgumentException.
+ * Ventajas del Diseno Expresivo (Domain-Driven Design):
+ * Provee una semantica clara y especifica en la pila de llamadas (Stacktrace). Es mucho mas descriptivo 
+ * leer un error tipo 'ProductoNoEncontradoException' que uno generico como 'IllegalArgumentException' o 'NullPointerException'.
  */
 public class ProductoNoEncontradoException extends RuntimeException 
 {    
+    /**
+     * Constructor de la excepcion personalizada.
+     * 
+     * @param mensaje Texto detallado que describe las circunstancias exactas de la anomalia (ej. el ID fallido).
+     */
     public ProductoNoEncontradoException(String mensaje) 
     {
-        // super llama al constructor de la clase padre (RuntimeException),
-        // la cual almacena el mensaje y lo expone mediante getMessage().
+        // La palabra clave 'super' invoca de forma explicita al constructor parametrizado de la clase 
+        // base (RuntimeException). Esto inicializa los mecanismos nativos de Java para registrar el mensaje 
+        // de error y congelar el estado actual del hilo, permitiendo luego recuperarlo mediante e.getMessage().
         super(mensaje);
     }
 }

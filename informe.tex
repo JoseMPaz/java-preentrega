@@ -4,6 +4,7 @@
 % PAQUETES
 % ---------------------------------
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % Mejora el renderizado de fuentes con tildes
 \usepackage{listings}% 1. Incluir el paquete para manejo de código
 \usepackage[T1]{fontenc}
 \usepackage[spanish]{babel}
@@ -72,23 +73,37 @@
 % SECCIÓN 1
 % ---------------------------------
 \section{Creación del proyecto}
-Para crear un nuevo proyecto java en linux desde la terminal utilizando el script build\_new\_proyect.sh el cual crea las carpeta como lo necesita maven, además crea un Main.java de muestra y crea las carpetas ui, util, model, exception y service.
-Este archivo debe tener permiso de ejecución \textbf{chmod +x build\_new\_proyect.sh}
+El proyecto por problemas velocidad del ordenador lo realice desde la terminal de linux. Para crear un nuevo proyecto java en desde la terminal creo un script build\_new\_proyect.sh el cual crea las carpeta como lo necesita maven, crea las carpetas ui, util, model, exception y service. Tambien crea un Main.java con un Hola mundo de prueba.
 
-\subsection{build\_new\_proyect.sh }
+\subsection{build\_new\_proyect.sh}
 \lstinputlisting[caption={Script de automatización build\_new\_proyect.sh}, label={code:script_bash}]{build_new_proyect.sh}
 
-\section{Ejecución del proyecto}
-\lstinputlisting[caption={Script de ejecucion run\_proyect.sh}, label={code:script_bash}]{run_proyect.sh}
+Este script debe tener permiso de ejecución que se otorga del siguiente modo:\\
+\textbf{chmod +x build\_new\_proyect.sh}\\ 
+
+Luego se ejecutó para crear el proyecto como se muestra en la \autoref{figura:nuevo_proyecto_java}.
 
 \begin{figure}[H] 
     \centering
-    \includegraphics[width=0.9\textwidth]{construccion_nuevo_proyecto.png}
+    \includegraphics[width=0.7\textwidth]{construccion_nuevo_proyecto.png}
     \caption{Creación de un nuevo proyecto java}
-    \label{fig:nuevo_proyecto_java}
+    \label{figura:nuevo_proyecto_java}
 \end{figure}
 
+\section{Ejecución del proyecto}
+\subsection{run\_proyect.sh}
+\lstinputlisting[caption={Script de ejecucion run\_proyect.sh}, label={code:script_bash}]{run_proyect.sh}
 
+Para ejecutarlo una vez que se realizo el proyecto se debe ejecutar como se muestra en la \autoref{figura:ejecucion_proyecto_java}.
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.7\textwidth]{ejecucion.png}
+    \caption{Ejecución del proyecto java}
+    \label{figura:ejecucion_proyecto_java}
+\end{figure}
+
+\section{Código}
 \subsection{Main.java}
 \lstinputlisting[
     caption={Clase Main.java (Pre-entrega)}, 
@@ -125,6 +140,56 @@ Este archivo debe tener permiso de ejecución \textbf{chmod +x build\_new\_proye
     caption={Clase StockInsuficienteException.java (Pre-entrega)}, 
     label={code:stock_insuficiente_exception_java}
 ]{./src/main/java/com/josepaz/preentrega/exception/StockInsuficienteException.java}
+
+\subsection{MenuProducto.java}
+\lstinputlisting[
+    caption={Clase MenuProducto.java (Pre-entrega)}, 
+    label={code:menu_producto_java}
+]{./src/main/java/com/josepaz/preentrega/ui/MenuProducto.java}
+
+\section{Corridas}
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.4\textwidth]{opcion1.png}
+    \caption{Elección de la opción 1}
+    \label{figura:opcion_1}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.6\textwidth]{opcion2.png}
+    \caption{Elección de la opción 2}
+    \label{figura:opcion_2}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.65\textwidth]{opcion3.png}
+    \caption{Elección de la opción 3}
+    \label{figura:opcion_3}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.75\textwidth]{opcion4.png}
+    \caption{Elección de la opción 4}
+    \label{figura:opcion_4}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.4\textwidth]{opcion5.png}
+    \caption{Elección de la opción 5}
+    \label{figura:opcion_5}
+\end{figure}
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.6\textwidth]{opcion6.png}
+    \caption{Elección de la opción 6}
+    \label{figura:opcion_6}
+\end{figure}
 
 
 % ---------------------------------
